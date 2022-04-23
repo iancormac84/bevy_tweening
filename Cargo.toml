@@ -13,7 +13,7 @@ readme = "README.md"
 exclude = ["examples/*.gif", ".github", "release.md", "run_examples.bat"]
 
 [features]
-default = ["bevy_sprite", "bevy_ui", "bevy_asset", "bevy_text"]
+default = ["bevy_sprite", "bevy_ui", "bevy_asset", "bevy_text", "bevy_pbr"]
 # Enable support for Asset animation
 bevy_asset = ["bevy/bevy_asset"]
 # Enable built-in lenses for Bevy sprites
@@ -22,6 +22,8 @@ bevy_sprite = ["bevy/bevy_sprite", "bevy/bevy_render"]
 bevy_ui = ["bevy/bevy_ui", "bevy/bevy_render"]
 # Enable built-in lenses for Bevy Text
 bevy_text = ["bevy/bevy_text", "bevy/bevy_render", "bevy/bevy_sprite"]
+#Enable built-in lenses for Bevy PBR
+bevy_pbr = ["bevy/bevy_pbr"]
 
 [dependencies]
 interpolation = "0.3"

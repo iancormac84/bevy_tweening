@@ -377,6 +377,140 @@ impl Lens<Sprite> for SpriteColorLens {
     }
 }
 
+/// A lens to manipulate the [`base_color`] field of a [`StandardMaterial`] asset.
+///
+/// [`base_color`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.StandardMaterial.html#structfield.base_color
+/// [`StandardMaterial`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.StandardMaterial.html
+#[cfg(feature = "bevy_pbr")]
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct StandardMaterialBaseColorLens {
+    /// Start color.
+    pub start: Color,
+    /// End color.
+    pub end: Color,
+}
+
+#[cfg(feature = "bevy_pbr")]
+impl Lens<StandardMaterial> for StandardMaterialBaseColorLens {
+    fn lerp(&mut self, target: &mut StandardMaterial, ratio: f32) {
+        // Note: Add<f32> for Color affects alpha, but not Mul<f32>. So use Vec4 for consistency.
+        let start: Vec4 = self.start.into();
+        let end: Vec4 = self.end.into();
+        let value = start.lerp(end, ratio);
+        target.base_color = value.into();
+    }
+}
+
+/// A lens to manipulate the [`emissive`] field of a [`StandardMaterial`] asset.
+///
+/// [`emissive`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.StandardMaterial.html#structfield.emissive
+/// [`StandardMaterial`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.StandardMaterial.html
+#[cfg(feature = "bevy_pbr")]
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct StandardMaterialEmissiveLens {
+    /// Start color.
+    pub start: Color,
+    /// End color.
+    pub end: Color,
+}
+
+#[cfg(feature = "bevy_pbr")]
+impl Lens<StandardMaterial> for StandardMaterialEmissiveLens {
+    fn lerp(&mut self, target: &mut StandardMaterial, ratio: f32) {
+        // Note: Add<f32> for Color affects alpha, but not Mul<f32>. So use Vec4 for consistency.
+        let start: Vec4 = self.start.into();
+        let end: Vec4 = self.end.into();
+        let value = start.lerp(end, ratio);
+        target.emissive = value.into();
+    }
+}
+
+/// A lens to manipulate the [`perceptual_roughness`] field of a [`StandardMaterial`] asset.
+///
+/// [`perceptual_roughness`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.StandardMaterial.html#structfield.perceptual_roughness
+/// [`StandardMaterial`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.StandardMaterial.html
+#[cfg(feature = "bevy_pbr")]
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct StandardMaterialPerceptualRoughnessLens {
+    /// Start roughness value.
+    pub start: f32,
+    /// End roughness value.
+    pub end: f32,
+}
+
+#[cfg(feature = "bevy_pbr")]
+impl Lens<StandardMaterial> for StandardMaterialPerceptualRoughnessLens {
+    fn lerp(&mut self, target: &mut StandardMaterial, ratio: f32) {
+        let start = self.start.max(0.089);
+        let end = self.end.min(1.0);
+        target.perceptual_roughness = start + (end - start) * ratio;
+    }
+}
+
+/// A lens to manipulate the [`intensity`] field of a [`PointLight`] asset.
+///
+/// [`intensity`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.PointLight.html#structfield.perceptual_roughness
+/// [`PointLight`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.PointLight.html
+#[cfg(feature = "bevy_pbr")]
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct PointLightIntensityLens {
+    /// Start intensity.
+    pub start: f32,
+    /// End intensity.
+    pub end: f32,
+}
+
+#[cfg(feature = "bevy_pbr")]
+impl Lens<PointLight> for PointLightIntensityLens {
+    fn lerp(&mut self, target: &mut PointLight, ratio: f32) {
+        target.intensity = self.start + (self.end - self.start) * ratio;
+    }
+}
+
+/// A lens to manipulate the [`color`] field of a [`DirectionalLight`] asset.
+///
+/// [`color`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.DirectionalLight.html#structfield.color
+/// [`DirectionalLight`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.DirectionalLight.html
+#[cfg(feature = "bevy_pbr")]
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct DirectionalLightColorLens {
+    /// Start color.
+    pub start: Color,
+    /// End color.
+    pub end: Color,
+}
+
+#[cfg(feature = "bevy_pbr")]
+impl Lens<DirectionalLight> for DirectionalLightColorLens {
+    fn lerp(&mut self, target: &mut DirectionalLight, ratio: f32) {
+        // Note: Add<f32> for Color affects alpha, but not Mul<f32>. So use Vec4 for consistency.
+        let start: Vec4 = self.start.into();
+        let end: Vec4 = self.end.into();
+        let value = start.lerp(end, ratio);
+        target.color = value.into();
+    }
+}
+
+/// A lens to manipulate the [`illuminance`] field of a [`DirectionalLight`] asset.
+///
+/// [`illuminance`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.DirectionalLight.html#structfield.illuminance
+/// [`DirectionalLight`]: https://docs.rs/bevy/0.9.0/bevy/pbr/struct.DirectionalLight.html
+#[cfg(feature = "bevy_pbr")]
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct DirectionalLightIlluminanceLens {
+    /// Start illuminance.
+    pub start: f32,
+    /// End illuminance.
+    pub end: f32,
+}
+
+#[cfg(feature = "bevy_pbr")]
+impl Lens<DirectionalLight> for DirectionalLightIlluminanceLens {
+    fn lerp(&mut self, target: &mut DirectionalLight, ratio: f32) {
+        target.illuminance = self.start + (self.end - self.start) * ratio;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use bevy::ecs::component::Tick;

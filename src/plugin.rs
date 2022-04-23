@@ -70,6 +70,12 @@ impl Plugin for TweeningPlugin {
             Update,
             component_animator_system::<Text>.in_set(AnimationSystem::AnimationUpdate),
         );
+
+        #[cfg(feature = "bevy_pbr")]
+        app.add_systems(Update, (component_animator_system::<PointLight>.in_set(AnimationSystem::AnimationUpdate),
+            component_animator_system::<DirectionalLight>.in_set(AnimationSystem::AnimationUpdate),
+            asset_animator_system::<StandardMaterial>.in_set(AnimationSystem::AnimationUpdate),
+        ));
     }
 }
 
