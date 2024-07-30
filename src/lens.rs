@@ -340,7 +340,7 @@ impl Lens<BackgroundColor> for UiBackgroundColorLens {
 ///
 /// [`color`]: https://docs.rs/bevy/0.13.0/bevy/sprite/struct.ColorMaterial.html#structfield.color
 /// [`ColorMaterial`]: https://docs.rs/bevy/0.13.0/bevy/sprite/struct.ColorMaterial.html
-#[cfg(feature = "bevy_sprite")]
+#[cfg(all(feature = "bevy_sprite", feature = "bevy_asset"))]
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct ColorMaterialColorLens {
     /// Start color.
